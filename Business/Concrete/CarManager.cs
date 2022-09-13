@@ -61,17 +61,17 @@ namespace Business.Concrete
         private bool IsCarNameLenghtValid(string name)
         {
             if(name.Length < 2)
-                return false;
+                return true;
             
-            return true;
+            return false;
         }
 
         private bool IsDailyPriceValid(decimal price)
         {
             if(price < 0 || price == 0)
-                return false;
+                return true;
 
-            return true;
+            return false;
         }
     }
 }
