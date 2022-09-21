@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers.FileHelper;
@@ -25,6 +26,7 @@ namespace Business.Concrete
             _fileHelper = fileHelper;
         }
 
+        [SecuredOperation("admin")]
         public IResult Add(IFormFile carFile , CarImage carImage)
         {
             IResult result = BusinessRules.Run
