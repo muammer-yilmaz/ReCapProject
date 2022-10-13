@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,13 @@ namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
-        
+        private readonly IBrandDal _brandDal;
+
+        public BrandManager(IBrandDal brandDal)
+        {
+            _brandDal = brandDal;
+        }
+
         public IResult Add(Brand brand)
         {
             throw new NotImplementedException();
@@ -19,10 +26,10 @@ namespace Business.Concrete
 
         public IDataResult<List<Brand>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
         }
 
-        public IDataResult<Brand> GetByCarId(int brandId)
+        public IDataResult<Brand> GetByCarId(int carId)
         {
             throw new NotImplementedException();
         }
