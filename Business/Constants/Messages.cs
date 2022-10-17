@@ -22,5 +22,6 @@ namespace Business.Constants
         internal static string UserAlreadyExists;
         internal static string AccessTokenCreated;
         internal static string AuthorizationDenied = "Yetki Yok";
+        internal static string CarsListed = "Araba Listesi Getirildi";
     }
 }

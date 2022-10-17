@@ -4,6 +4,7 @@ using Core.Aspects.Autofac.Caching;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         public ICarDal _carDal;
+        private ICarImageService _carImageService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
             _carDal = carDal;
+            _carImageService = carImageService;
         }
 
         public IResult Add(Car car)
@@ -29,6 +32,11 @@ namespace Business.Concrete
             }
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
+        }
+
+        public IResult Delete(Car car)
+        {
+            throw new NotImplementedException();
         }
 
         [CacheAspect]
@@ -42,9 +50,15 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId));
         }
 
+        public IDataResult<List<CarListItemDto>> GetCarList()
+        {
+            var carList = _carDal.GetCarList();
+            return new SuccessDataResult<List<CarListItemDto>>(carList,Messages.CarsListed);
+        }
+
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
+            return new SuccessDataResult<List<CarListItemDto>>(_carDal.GetCarList(c => c.BrandId == brandId));
 
         }
 

@@ -10,11 +10,11 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            ICarService carService = new CarManager(new EfCarDal());
+            //ICarService carService = new CarManager(new EfCarDal());
 
             //addCar(carService);
 
-            getAll(carService);
+            //getAll(carService);
         }
 
         private static void addCar(ICarService carService)
