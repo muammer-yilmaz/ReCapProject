@@ -7,11 +7,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarImageController : ControllerBase
+    public class CarImagesController : ControllerBase
     {
         private readonly ICarImageService carImageService;
 
-        public CarImageController(ICarImageService carImageService)
+        public CarImagesController(ICarImageService carImageService)
         {
             this.carImageService = carImageService;
         }
@@ -44,6 +44,19 @@ namespace WebAPI.Controllers
             var result = carImageService.Delete(imageToDelete);
             if (result.Success)
                 return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcarimages")]
+        public IActionResult GetCarImages(int carId)
+        {
+            var result= carImageService.GetAllByCarId(carId);
+
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+
             return BadRequest(result);
         }
     }

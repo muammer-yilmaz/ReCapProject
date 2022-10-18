@@ -56,6 +56,11 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
+        public IDataResult<List<CarImage>> GetAllByCarId(int carId)
+        {
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.CarId == carId));
+        }
+
         public IDataResult<CarImage> GetById(int imageId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.ImageId == imageId));

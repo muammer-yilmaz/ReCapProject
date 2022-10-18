@@ -6,11 +6,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarController : ControllerBase
+    public class CarsController : ControllerBase
     {
         private readonly ICarService _carService;
 
-        public CarController(ICarService carService)
+        public CarsController(ICarService carService)
         {
             _carService = carService;
         }
@@ -49,10 +49,10 @@ namespace WebAPI.Controllers
             return BadRequest(list);
         }
 
-        [HttpGet("getcarlist")]
+        [HttpGet("getcardetails")]
         public IActionResult GetCarList()
         {
-            var list = _carService.GetCarList();
+            var list = _carService.GetCarDetails();
             if(list.Success)
             {
                 return Ok(list);
