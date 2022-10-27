@@ -1,5 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
+using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,9 +15,24 @@ namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
+        private readonly IRentalDal _rentalDal;
+
+        public RentalManager(IRentalDal rentalDal)
+        {
+            _rentalDal = rentalDal;
+        }
+
+        //[SecuredOperation("admin,car.add")]
         public IResult Add(Rental rental)
         {
-            throw new NotImplementedException();
+            var result = BusinessRules.Run(IsRentable(rental.CarId));
+
+            if(!result.Success)
+            {
+                return result;
+            }
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalAdded);
         }
 
         public IDataResult<List<Rental>> GetAll()
@@ -21,7 +40,7 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<Rental> GetByCarId(int rentalId)
+        public IDataResult<Rental> GetByRentalId(int rentalId)
         {
             throw new NotImplementedException();
         }
@@ -29,6 +48,15 @@ namespace Business.Concrete
         public IResult Update(Rental rental)
         {
             throw new NotImplementedException();
+        }
+
+        private IResult IsRentable(int carId)
+        {
+            if(_rentalDal.Get(r => r.CarId == carId) == null)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
         }
     }
 }

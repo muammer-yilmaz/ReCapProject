@@ -23,8 +23,10 @@ namespace DataAccess.Concrete.EntityFramework
                              BrandName = b.BrandName,
                              ColorName = cl.ColorName,
                              CarName = c.CarName,
+                             ModelYear = c.ModelYear,
                              DailyPrice = c.DailyPrice,
-                             CarImage = (from i in context.CarImages where i.CarId == c.CarId select i.ImagePath).FirstOrDefault() ?? "no-image.png"
+                             CarImage = (from i in context.CarImages where i.CarId == c.CarId select i.ImagePath).FirstOrDefault() ?? "no-image.png",
+                             IsRentable = !(from r in context.Rentals where r.CarId == c.CarId select c.CarName).Any()
                          };
             return result.ToList();
 

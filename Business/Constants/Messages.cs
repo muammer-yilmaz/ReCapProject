@@ -15,13 +15,14 @@ namespace Business.Constants
         internal static string CarImageLimitExceeded = "Araba resmi ekleme limiti aşıldı";
         internal static string CarImageDeleted = "Araba resmi silme başarılı";
         internal static string CarImageUpdated = "Araba resmi güncellme başarılı";
-        internal static string UserRegistered;
-        internal static string UserNotFound;
+        internal static string UserRegistered = "Kullanıcı kaydı başarılı";
+        internal static string UserNotFound = "Kullanıcı bulunamadı";
         internal static string PasswordError;
         internal static string SuccessfulLogin;
         internal static string UserAlreadyExists;
         internal static string AccessTokenCreated;
         internal static string AuthorizationDenied = "Yetki Yok";
-        internal static string CarsListed = "Araba Listesi Getirildi";
+        internal static string CarsListed = "Araba listesi getirildi";
+        internal static string RentalAdded = "Araba kiralama başarılı";
     }
 }
