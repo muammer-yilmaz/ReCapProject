@@ -24,5 +24,8 @@ namespace Business.Constants
         internal static string AuthorizationDenied = "Yetki Yok";
         internal static string CarsListed = "Araba listesi getirildi";
         internal static string RentalAdded = "Araba kiralama başarılı";
+        internal static string CardNotFound = "Kredi kartı bulunamadı";
+        internal static string BalanceInsufficient = "Bakiye yetersiz";
+        internal static string PaymentSuccessful = "Ödeme başarılı";
     }
 }

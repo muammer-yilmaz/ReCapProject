@@ -35,6 +35,13 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
             builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();
 
+            builder.RegisterType<CreditCardManager>().As<ICreditCardService>().SingleInstance();
+            builder.RegisterType<EfCreditCardDal>().As<ICreditCardDal>().SingleInstance();
+
+            builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
+            builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
+
+            builder.RegisterType<PosManager>().As<IPosService>().SingleInstance();
 
             builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
             builder.RegisterType<FileHelperManager>().As<IFileHelper>().SingleInstance();
