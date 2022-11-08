@@ -5,6 +5,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,21 +28,38 @@ namespace Business.Concrete
         }
 
         //[SecuredOperation("admin,car.add")]
-        public IResult Add(Rental rental, CreditCard card)
+        public IResult Add(PaymentDto payment)
         {
-            var result = BusinessRules.Run(IsRentable(rental.CarId));
+            var result = BusinessRules.Run(IsRentable(payment.CarId));
 
             if (result is not null)
             {
                 return result;
             }
+
+            CreditCard card = new()
+            {
+                CardNumber = payment.CardNumber,
+                ExpirationMonth = payment.ExpirationMonth,
+                ExpirationYear = payment.ExpirationYear,
+                Cvv = payment.Cvv
+            };
+
+            Rental rental = new()
+            {
+                CarId = payment.CarId,
+                CustomerId = payment.CustomerId,
+                RentDate = payment.RentDate,
+                ReturnDate = payment.ReturnDate
+            };
+
             var paymentResult = _posService.Pay(card, CalculatePayment(rental));
-            if (paymentResult)
+            if (paymentResult.Success)
             {
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.RentalAdded);
             }
-            return new ErrorResult();
+            return paymentResult;
         }
 
         public IDataResult<List<Rental>> GetAll()
@@ -61,11 +79,16 @@ namespace Business.Concrete
 
         private IResult IsRentable(int carId)
         {
-            if (_rentalDal.Get(r => r.CarId == carId) != null)
+            var rental = _rentalDal.Get(r => r.CarId == carId);
+            if (rental is null)
             {
-                return new ErrorResult();
+                return new SuccessResult();
             }
-            return new SuccessResult();
+            if (rental.ReturnDate < DateTime.Now)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult(rental.ReturnDate.ToString() + " tarihine kadar " + Messages.AlreadyRented);
         }
 
         private decimal CalculatePayment(Rental rental)

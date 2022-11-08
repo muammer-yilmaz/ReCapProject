@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add(PaymentDto payment)
         {
-            var result = _rentalService.Add(payment.Rental, payment.Card);
+            var result = _rentalService.Add(payment);
             if(result.Success)
             {
                 return Ok(result);

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,10 @@ namespace Business.Concrete
             _creditCardService = creditCardService;
         }
 
-        public bool Pay(CreditCard card, decimal payment)
+        public IResult Pay(CreditCard card, decimal payment)
         {
             var result = _creditCardService.VerifyPayment(card, payment);
-
-            if(result is not null)
-            {
-                return true;
-            }
-            throw new Exception();
+            return result;
         }
     }
 }

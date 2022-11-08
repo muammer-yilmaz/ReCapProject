@@ -32,25 +32,21 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IResult VerifyPayment(CreditCard creditCard,decimal payment)
+        public IResult VerifyPayment(CreditCard creditCard, decimal payment)
         {
-            var result = BusinessRules.Run(Verify(creditCard, payment));
+            var result = Verify(creditCard, payment);
 
-            if(result is not null)
-            {
-                return result;
-            }
-            return new ErrorResult();
+            return result;
         }
 
         private IResult Verify(CreditCard creditCard, decimal payment)
         {
             var result = _creditCardDal.MatchCard(creditCard);
-            if(result is null)
+            if (result is null)
             {
                 return new ErrorResult(Messages.CardNotFound);
             }
-            if(result.Balance < payment)
+            if (result.Balance < payment)
             {
                 return new ErrorResult(Messages.BalanceInsufficient);
             }

@@ -27,5 +27,7 @@ namespace Business.Constants
         internal static string CardNotFound = "Kredi kartı bulunamadı";
         internal static string BalanceInsufficient = "Bakiye yetersiz";
         internal static string PaymentSuccessful = "Ödeme başarılı";
+        internal static string PaymentError = "Ödeme başarısız";
+        internal static string AlreadyRented = "araba kirada";
     }
 }
