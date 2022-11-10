@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,18 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest(list);
+        }
+
+        [HttpPost("add")]
+        public IActionResult Add(Brand color)
+        {
+            var result = _brandService.Add(color);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
     }
 }

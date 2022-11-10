@@ -1,4 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,10 +23,17 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-
+        [ValidationAspect(typeof(ColorValidator))]
         public IResult Add(Color color)
         {
-            throw new NotImplementedException();
+            var result = BusinessRules.Run(CheckIfColorNameExists(color.ColorName));
+            if(result is not null)
+            {
+                return result;
+            }
+
+            _colorDal.Add(color);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
         public IDataResult<List<Color>> GetAll()
@@ -30,14 +41,18 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public IDataResult<Color> GetByCarId(int colorId)
+        public IResult Update(Color color)
         {
             throw new NotImplementedException();
         }
 
-        public IResult Update(Color color)
+        private IResult CheckIfColorNameExists(string colorName)
         {
-            throw new NotImplementedException();
+            if(_colorDal.Get(c => c.ColorName == colorName) != null)
+            {
+                return new ErrorResult(Messages.ColorAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

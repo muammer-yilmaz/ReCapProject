@@ -9,8 +9,11 @@ using System.Threading.Tasks;
 namespace Business.ValidationRules.FluentValidation {
     public class CarValidator : AbstractValidator<Car> {
         public CarValidator() {
-            RuleFor(c => c.CarName.Length).NotEmpty();
-            RuleFor(c => c.ModelYear).NotEmpty();
+            RuleFor(c => c.CarName).NotEmpty();
+            RuleFor(c => c.ModelYear).NotEmpty().GreaterThan(1900);
+            RuleFor(c => c.BrandId).NotEmpty().GreaterThan(0);
+            RuleFor(c => c.ColorId).NotEmpty().GreaterThan(0);
+
         }
     }
 }
